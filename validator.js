@@ -2,16 +2,16 @@ window.onload = function () {
   // Estilo para destaque visual dos elementos com problema
   const style = document.createElement("style");
   style.textContent = `
-    .valida-alerta {
-      outline: 2px dashed red !important;
-      animation: piscar-borda 1s infinite;
-      z-index: 9999;
-    }
-    @keyframes piscar-borda {
-      0%, 100% { box-shadow: 0 0 0 2px red; }
-      50% { box-shadow: 0 0 0 2px transparent; }
-    }
-  `;
+            .valida-alerta {
+            outline: 2px dashed red !important;
+            animation: piscar-borda 1s infinite;
+            z-index: 9999;
+            }
+            @keyframes piscar-borda {
+            0%, 100% { box-shadow: 0 0 0 2px red; }
+            50% { box-shadow: 0 0 0 2px transparent; }
+            }
+        `;
   document.head.appendChild(style);
 
   (function validatePage() {
@@ -35,9 +35,17 @@ window.onload = function () {
     const addResult = (msg, element = null) => {
       if (element && element.classList) {
         element.classList.add("valida-alerta");
-        element.setAttribute("title", msg); // Adiciona tooltip com a descrição do problema
+        const existingTitle = element.getAttribute("title") || "";
+        element.setAttribute("title", existingTitle ? `${existingTitle} | ${msg}` : msg);
       }
-      results.push(element ? { msg, element } : msg);
+      results.push(
+        element
+          ? {
+              msg,
+              element,
+            }
+          : msg
+      );
     };
 
     // (Todas as validações seguem abaixo — sem alterações de lógica)
@@ -173,6 +181,14 @@ window.onload = function () {
     if ((url.match(/[?&]/g) || []).length > 2) {
       addResult(`🔸 URL com muitos parâmetros: ${url}`);
     }
+
+    const loremText = /lorem/i;
+    document.querySelectorAll("*").forEach((el) => {
+      const text = el.textContent || el.getAttribute("placeholder") || "";
+      if (loremText.test(text)) {
+        addResult("🔸 Texto lorem encontrado.", el);
+      }
+    });
 
     document.querySelectorAll("a, button").forEach((el) => {
       const hasText = Boolean(el.textContent.trim());
