@@ -189,7 +189,7 @@ window.onload = function () {
       if (!img.hasAttribute("alt")) addResult("🔸 Imagem sem atributo alt", img);
       if (!img.hasAttribute("loading")) addResult("🔸 Imagem sem atributo loading", img);
       if (!img.classList.contains("lazyload")) addResult("🔸 Imagem sem class:lazyload", img);
-      if (!img.src.endsWith(".webp") || !img.src.endsWith(".svg")) addResult("🔸 Imagem sem extensão .webp ou .svg", img);
+      if (!img.src.endsWith(".webp") && !img.src.endsWith(".svg")) addResult("🔸 Imagem sem extensão .webp ou .svg", img);
 
       const naturalRatio = img.naturalWidth / img.naturalHeight;
       const displayedRatio = img.width / img.height;
