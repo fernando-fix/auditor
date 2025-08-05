@@ -8,4 +8,4 @@ adicionar o seguinte fragmento
 </script>
 
 resetar o cdn
-[Reset CDN](https://purge.jsdelivr.com/gh/fernando-fix/auditor@main/validator.js)
+[Reset CDN](https://purge.jsdelivr.net/gh/fernando-fix/auditor@main/validator.js)
