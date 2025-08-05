@@ -1,4 +1,3 @@
-//v4
 window.onload = function () {
   // Estilo para destaque visual dos elementos com problema
   const style = document.createElement("style");
@@ -6,7 +5,6 @@ window.onload = function () {
             .valida-alerta {
             outline: 2px dashed red !important;
             animation: piscar-borda 1s infinite;
-            z-index: 9999;
             }
             @keyframes piscar-borda {
             0%, 100% { box-shadow: 0 0 0 2px red; }
@@ -122,8 +120,9 @@ window.onload = function () {
       }
     });
 
-    document.querySelectorAll("input, select, textarea").forEach((input) => {
+    document.querySelectorAll("input:not([type=hidden]), select, textarea").forEach((input) => {
       const id = input.id;
+      if (id && id.includes("goog-gt-")) return;
       const label = id ? document.querySelector(`label[for="${id}"]`) : null;
       if (!label && !input.closest("label")) {
         addResult("🔸 Campo de formulário sem label associado.", input);
@@ -152,9 +151,9 @@ window.onload = function () {
       }
     });
 
-    document.querySelectorAll("[style]").forEach((el) => {
-      addResult("🔸 Estilo inline encontrado.", el);
-    });
+    // document.querySelectorAll("[style]").forEach((el) => {
+    //   addResult("🔸 Estilo inline encontrado.", el);
+    // });
 
     document.querySelectorAll("*").forEach((el) => {
       const cs = getComputedStyle(el);
@@ -205,8 +204,12 @@ window.onload = function () {
       if (!img.hasAttribute("height")) addResult("🔸 Imagem sem atributo height", img);
       if (!img.hasAttribute("alt")) addResult("🔸 Imagem sem atributo alt", img);
       // if (!img.hasAttribute("loading")) addResult("🔸 Imagem sem atributo loading", img);
-      if (!(img.classList.contains("lazyload") || img.classList.contains("lazyloaded") || img.classList.contains("lazyloading"))) addResult("🔸 Imagem sem class:lazyload ou lazyloaded", img);
-      if (!img.src.includes(".webp") && !img.src.includes(".svg")) addResult("🔸 Imagem sem extensão .webp ou .svg", img);
+      if (!(img.classList.contains("lazyload") || img.classList.contains("lazyloaded") || img.classList.contains("lazyloading"))) {
+        if (img.src && img.src.includes("gstatic")) return;
+        addResult("🔸 Imagem sem class:lazyload ou lazyloaded", img);
+      }
+      if (!img.src.includes(".webp") && !img.src.includes(".svg") && !img.src.includes("youtube"))
+        addResult("🔸 Imagem sem extensão .webp ou .svg", img);
 
       const naturalRatio = img.naturalWidth / img.naturalHeight;
       const displayedRatio = img.width / img.height;
