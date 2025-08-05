@@ -204,8 +204,8 @@ window.onload = function () {
       if (!img.hasAttribute("width")) addResult("🔸 Imagem sem atributo width", img);
       if (!img.hasAttribute("height")) addResult("🔸 Imagem sem atributo height", img);
       if (!img.hasAttribute("alt")) addResult("🔸 Imagem sem atributo alt", img);
-      if (!img.hasAttribute("loading")) addResult("🔸 Imagem sem atributo loading", img);
-      if (!img.classList.contains("lazyload")) addResult("🔸 Imagem sem class:lazyload", img);
+      // if (!img.hasAttribute("loading")) addResult("🔸 Imagem sem atributo loading", img);
+      if (!(img.classList.contains("lazyload") || img.classList.contains("lazyloaded") || img.classList.contains("lazyloading"))) addResult("🔸 Imagem sem class:lazyload ou lazyloaded", img);
       if (!img.src.includes(".webp") && !img.src.includes(".svg")) addResult("🔸 Imagem sem extensão .webp ou .svg", img);
 
       const naturalRatio = img.naturalWidth / img.naturalHeight;
