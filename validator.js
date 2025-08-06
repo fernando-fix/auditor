@@ -60,8 +60,11 @@ window.onload = function () {
       addResult("🔸 Tag <title> ausente ou vazia.");
     } else {
       const len = title.textContent.trim().length;
-      if (len < 30 || len > 65) {
-        addResult(`🔸 <title> com tamanho fora do ideal (${len} caracteres).`, title);
+      if (len < 30) {
+        addResult(`🔸 <title> muito curto (${len} caracteres). Ideal: entre 30 e 65 caracteres.`, title);
+      }
+      if (len > 65) {
+        addResult(`🔸 <title> muito longo (${len} caracteres). Ideal: entre 30 e 65 caracteres.`, title);
       }
     }
 
@@ -70,8 +73,11 @@ window.onload = function () {
       addResult('🔸 <meta name="description"> ausente ou vazia.');
     } else {
       const len = metaDesc.content.trim().length;
-      if (len < 70 || len > 160) {
-        addResult(`🔸 Meta description com tamanho inadequado (${len} caracteres).`, metaDesc);
+      if (len < 70) {
+        addResult(`🔸 Meta description muito curta (${len} caracteres). Ideal: entre 70 e 160 caracteres.`, metaDesc);
+      }
+      if (len > 160) {
+        addResult(`🔸 Meta description muito longa (${len} caracteres). Ideal: entre 70 e 160 caracteres.`, metaDesc);
       }
     }
 
@@ -184,6 +190,9 @@ window.onload = function () {
 
     const loremText = /lorem/i;
     document.querySelectorAll("*").forEach((el) => {
+      if (el.tagName === "SCRIPT") return;
+      if (el.tagName === "HTML") return;
+      if (el.tagName === "HEAD") return;
       const text = el.textContent || el.getAttribute("placeholder") || "";
       if (loremText.test(text)) {
         addResult("🔸 Texto lorem encontrado.", el);
