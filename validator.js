@@ -40,9 +40,9 @@ window.onload = function () {
       results.push(
         element
           ? {
-              msg,
-              element,
-            }
+            msg,
+            element,
+          }
           : msg
       );
     };
@@ -212,10 +212,17 @@ window.onload = function () {
       if (!img.hasAttribute("width")) addResult("🔸 Imagem sem atributo width", img);
       if (!img.hasAttribute("height")) addResult("🔸 Imagem sem atributo height", img);
       if (!img.hasAttribute("alt")) addResult("🔸 Imagem sem atributo alt", img);
-      // if (!img.hasAttribute("loading")) addResult("🔸 Imagem sem atributo loading", img);
-      if (!(img.classList.contains("lazyload") || img.classList.contains("lazyloaded") || img.classList.contains("lazyloading"))) {
+      if (img.hasAttribute("alt") && img.alt.trim() === "") addResult("🔸 Imagem com atributo alt vazio", img);
+      if (
+        !(
+          img.loading === "lazy" ||
+          img.classList.contains("lazyload") ||
+          img.classList.contains("lazyloaded") ||
+          img.classList.contains("swiper-lazy")
+        )
+      ) {
         if (img.src && img.src.includes("gstatic")) return;
-        addResult("🔸 Imagem sem class:lazyload ou lazyloaded", img);
+        addResult(`🔸 Imagem sem loading="lazy" ou classes lazyload/lazyloaded/swiper-lazy`, img);
       }
       if (!img.src.includes(".webp") && !img.src.includes(".svg") && !img.src.includes("youtube"))
         addResult("🔸 Imagem sem extensão .webp ou .svg", img);
@@ -223,7 +230,12 @@ window.onload = function () {
       const naturalRatio = img.naturalWidth / img.naturalHeight;
       const displayedRatio = img.width / img.height;
       if (Math.abs(naturalRatio - displayedRatio) > 0.1) {
-        addResult("🔸 Imagem com proporção distorcida.", img);
+        addResult(`
+🔸 Imagem com proporção distorcida.
+  - Original: ${img.naturalWidth}x${img.naturalHeight}.
+  - Atual: ${img.width}x${img.height}.
+  - Recomendação: ${img.width}x${(img.width / naturalRatio).toFixed(0)}.          
+          `, img);
       }
     });
 
