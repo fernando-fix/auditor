@@ -208,6 +208,15 @@ window.onload = function () {
       }
     });
 
+    // Frame e IFrame validation
+    document.querySelectorAll("frame, iframe").forEach((el) => {
+      if (!el.hasAttribute("title") || !el.title.trim()) addResult("🔸 Frame ou IFrame sem atributo title", el);
+      if (!el.hasAttribute("sandbox")) addResult("🔸 Frame ou IFrame sem atributo sandbox", el);
+      if (!el.hasAttribute("referrerpolicy")) addResult("🔸 Frame ou IFrame sem atributo referrerpolicy", el);
+      if (!el.hasAttribute("width") || !el.hasAttribute("height")) addResult("🔸 Frame ou IFrame sem atributo width/height", el);
+      if (!el.hasAttribute("loading") || el.loading !== "lazy") addResult("🔸 Frame ou IFrame sem atributo loading='lazy'", el);
+    });
+
     document.querySelectorAll("img").forEach((img) => {
       if (!img.hasAttribute("width")) addResult("🔸 Imagem sem atributo width", img);
       if (!img.hasAttribute("height")) addResult("🔸 Imagem sem atributo height", img);
